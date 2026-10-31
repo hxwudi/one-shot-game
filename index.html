@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05060f">
+<title>霓虹脉冲 · NEON PULSE</title>
+<link rel="stylesheet" href="style.css?v=5">
+</head>
+<body>
+<div id="app">
+  <canvas id="game"></canvas>
+
+  <div id="hud" class="hidden">
+    <div class="hud-left">
+      <div class="bars">
+        <div class="hp-row">
+          <span class="tag">HP</span>
+          <div class="bar hp"><i id="hpFill"></i></div>
+          <span id="hpText" class="num">100</span>
+        </div>
+        <div class="xp-row">
+          <span class="lv">LV<b id="lvNum">1</b></span>
+          <div class="bar xp"><i id="xpFill"></i></div>
+        </div>
+      </div>
+      <div class="ult-wrap">
+        <div class="ult-ring" id="ultRing"><div class="ult-core">E</div></div>
+        <span class="ult-label">PULSE</span>
+      </div>
+    </div>
+
+    <div class="hud-center">
+      <div id="waveLabel">WAVE 01</div>
+      <div id="waveSub">清除全部敌对信号</div>
+      <div id="bossBar" class="boss-bar hidden">
+        <div class="boss-name"><span id="bossName">核心</span><em>BOSS</em></div>
+        <div class="bar boss"><i id="bossFill"></i></div>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <div class="top-stats">
+        <div class="stat"><span>TIME</span><b id="timeText">00:00</b></div>
+        <div class="stat"><span>SCORE</span><b id="scoreText">0</b></div>
+      </div>
+      <div class="right-actions">
+        <button id="muteBtn" class="icon-btn" title="静音">♪</button>
+        <button id="pauseBtn" class="icon-btn" title="暂停">❚❚</button>
+      </div>
+      <div id="comboTag" class="combo off">×1.00</div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <div id="stickZone"></div>
+  <div id="stickBase" class="hidden"><div id="stickKnob"></div></div>
+
+  <div id="touchBtns" class="hidden">
+    <button id="dashBtn" class="action-btn dash" aria-label="冲刺">
+      <div class="cd" id="dashCd"></div>
+      <div class="btn-label">
+        <span class="btn-title">DASH</span>
+        <span class="charges" id="dashCharges">×1</span>
+      </div>
+    </button>
+    <button id="pulseBtn" class="action-btn pulse" aria-label="脉冲爆发">
+      <div class="fill" id="pulseFill"></div>
+      <div class="btn-label">
+        <span class="btn-title">PULSE</span>
+        <span class="pct" id="pulsePct">0%</span>
+      </div>
+    </button>
+  </div>
+
+  <div id="overlay" class="active">
+    <section id="panelTitle" class="panel title-panel">
+      <div class="brand">
+        <h1>NEON<span>PULSE</span></h1>
+        <p class="brand-cn">霓 虹 脉 冲</p>
+      </div>
+      <div class="tagline">在失控的霓虹禁区里，<br>你能撑到第几波？</div>
+      <button id="startBtn" class="btn primary">开始行动</button>
+      <div class="keys">
+        <div><kbd>WASD</kbd> / <kbd>方向键</kbd> 移动</div>
+        <div><kbd>空格</kbd> / <kbd>Shift</kbd> 冲刺闪避</div>
+        <div><kbd>E</kbd> 脉冲爆发　<kbd>P</kbd> 暂停</div>
+        <div class="dim">武器会自动锁定最近的敌人开火</div>
+        <div class="dim">触屏：左侧拖动移动 · 右下按钮冲刺 / 脉冲</div>
+      </div>
+      <div class="best">BEST <b id="bestText">0</b></div>
+    </section>
+
+    <section id="panelUpgrade" class="panel upgrade-panel hidden">
+      <div class="section-label">SYSTEM UPGRADE</div>
+      <h2>选择一项强化</h2>
+      <div id="cards" class="cards"></div>
+    </section>
+
+    <section id="panelPause" class="panel small-panel hidden">
+      <div class="section-label">PAUSED</div>
+      <h2>信号已中断</h2>
+      <div class="btn-row">
+        <button id="resumeBtn" class="btn">继续战斗</button>
+        <button id="restartBtn2" class="btn ghost">重新开始</button>
+      </div>
+    </section>
+
+    <section id="panelOver" class="panel small-panel hidden">
+      <div class="section-label danger">SIGNAL LOST</div>
+      <h2>你被清除了</h2>
+      <div class="stats-grid">
+        <div><span>到达波次</span><b id="overWave">1</b></div>
+        <div><span>最终得分</span><b id="overScore">0</b></div>
+        <div><span>击杀总数</span><b id="overKills">0</b></div>
+        <div><span>存活时间</span><b id="overTime">00:00</b></div>
+      </div>
+      <div id="overBest" class="best small">最高分 0</div>
+      <div class="btn-row">
+        <button id="restartBtn" class="btn primary">再来一局</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="rotate" class="hidden">
+    <div class="rotate-inner">
+      <div class="rot-icon">⟳</div>
+      <p>请将设备旋转为横屏<br>获得更开阔的战斗视野</p>
+      <button id="rotateSkip" class="btn ghost small">仍然继续</button>
+    </div>
+  </div>
+</div>
+<script src="game.js?v=5"></script>
+</body>
+</html>
